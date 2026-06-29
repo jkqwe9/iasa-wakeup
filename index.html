@@ -493,7 +493,7 @@ const DOW = ['월','화','수','목','금','토','일'];
 
 /* ---------- Supabase 연결 ---------- */
 const SUPABASE_URL = 'https://clfkzorqwzgpnudjrdym.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsZmt6b3Jxd3pncG51ZGpyZHltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NjY2MTcsImV4cCI6MjA5ODI0MjYxN30.7La2hMCBxEmH5SkFMbLD-Nzt1fa3BaUIZv6p0WqHEII';
+const SUPABASE_ANON_KEY = 'sb_publishable_eLA-KCbiDRwluADNW5QN4w_KJ-9vdO6';
 let sb = null;
 try{ sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }catch(e){ console.error('Supabase 초기화 실패:', e); }
 
@@ -504,7 +504,11 @@ const FN_URL = SUPABASE_URL + '/functions/v1/smooth-responder';
 let adminToken = ''; // 관리자 로그인 시 메모리에만 잠깐 보관 (저장 안 함)
 
 async function callFn(payload, withToken){
-  const headers = { 'Content-Type':'application/json', 'Authorization':'Bearer '+SUPABASE_ANON_KEY };
+  const headers = {
+    'Content-Type':'application/json',
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization':'Bearer '+SUPABASE_ANON_KEY
+  };
   if(withToken) headers['x-admin-token'] = adminToken;
   const res = await fetch(FN_URL, { method:'POST', headers, body: JSON.stringify(payload) });
   let data = null;
